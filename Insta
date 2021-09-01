@@ -1,0 +1,74 @@
+function move_down(element, how_much_down) {
+	element.scroll(how_much_down, how_much_down + 1000);
+}
+
+
+function move_all_down(element) {
+	let element_pos = 0;
+	
+	const interval = setInterval(() => {
+		move_down(element, element_pos);
+		element_pos += 1000;
+	}, 500);
+	
+	return interval;
+}
+
+
+const followersDiv = document.querySelector('.isgrP');
+const interval_followers = move_all_down(followersDiv);
+
+
+clearInterval(interval_followers);
+
+const followers_nodes = document.querySelectorAll('.FPmhX')
+const followers_names = []
+
+for (let i = 0; i < followers_nodes.length; i++) {
+	followers_names.push(followers_nodes[i].text);
+}
+
+const followingDiv = document.querySelector('.isgrP');
+const interval_following = move_all_down(followingDiv);
+
+clearInterval(interval_following);
+
+const following_nodes = document.querySelectorAll('.FPmhX')
+const following_names = []
+
+for (let i = 0; i < following_nodes.length; i++) {
+	following_names.push(following_nodes[i].text);
+}
+
+const not_following = [];
+const not_followed = [];
+
+for (let i = 0; i < following_names.length; i++) {
+	const person_im_following = following_names[i];
+	
+	let follows_me = false;
+	for (let j = 0; j < followers_names.length; j++) {
+		if (followers_names[j] === person_im_following) {
+			follows_me = true;
+		} 
+	}
+	
+	if (!follows_me) {
+		not_followed.push(person_im_following);
+	}
+}
+
+for (let i = 0; i < followers_names.length; i++) {
+	const person_im_followed = followers_names[i];
+	
+	let i_follow = false;
+	for (let j = 0; j < following_names.length; j++) {
+		if (following_names[j] === person_im_followed) {
+			i_follow = true;
+		} 
+	}
+	
+	if (!i_follow) {
+		not_following.push(person_im_followed);
+	}
+}
